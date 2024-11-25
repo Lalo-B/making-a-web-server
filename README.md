@@ -37,6 +37,8 @@ connection socket:
 
 # socket api in node.js
 
+## step 1 make a listening socket
+
 its all in the net module
 
 ``` import * as net from 'net' ```
@@ -48,4 +50,122 @@ let server = net.createServer();
 server.listen({host: '127.0.0.1', port: 1234});
 ```
 
-this 
+side note: node.js is a javascript run time environment that lets you
+execute js code without a browser
+
+The No. 1 beginner trap in socket programming is “concatenating & splitting TCP packets” because there is no such thing as “TCP packets”. Protocols are required to interpret TCP data by imposing boundaries within the byte stream.
+
+## step 2 accept a new connection
+
+accept primitive - this needs some background knowledge.
+2 styles of handling IO in js: callbacks - you request something to be done and register a callback with the
+run time and when finished the callback is invoked. E.G.
+
+```typescript
+function newConn(socket: net.Socket): void {
+    console.log('new connection', socket.remoteAddress, socket.remotePort);
+    // ...
+}
+
+let server = net.createServer();
+server.on('connection', newConn); // this registers the callback function newConn.
+server.listen({host: '127.0.0.1', port: 1234});
+```
+
+the run time will automatically perform the accept operation and invoke the callback with the new connection as an argument of type net.Socket. its registered once but will be used for each new connection.
+
+## step 3 error handling
+
+connections are events and we register things using socket.on to a specific event. ex ->
+```js
+server.on('error', (err)=> {throw err});
+```
+
+## step 4 read and write
+
+data received via connections is also delivered via callbacks. events are 'data' and 'end'. 'data' is when data arrives and 'end' is when the peer has ended the transmission.
+
+```ts
+    socket.on('end', () => {
+        // FIN received. The connection will be closed automatically.
+        console.log('EOF.');
+    });
+    socket.on('data', (data: Buffer) => {
+        console.log('data:', data);
+        socket.write(data); // echo back the data.
+    });
+```
+
+what is the buffer type?
+
+the socket.write() method sends data back to the peer
+
+## step 5 close the connection
+
+socket.end ends the transmission and closes the socket. ex shows ending the socket comms when q is sent
+
+```ts
+socket.on('data', (data: Buffer) => {
+        console.log('data:', data);
+        socket.write(data); // echo back the data.
+
+        // actively closed the connection if the data contains 'q'
+        if (data.includes('q')) {
+            console.log('closing.');
+            socket.end();   // this will send FIN and close the connection.
+        }
+    });
+```
+
+when the transmission is ended from either side the socket is automatically closed by the runtime. 'error' event also closes the socket
+
+## step 6 test it
+complete code example
+
+
+```ts
+import * as net from "net";
+
+function newConn(socket: net.Socket): void {
+    console.log('new connection', socket.remoteAddress, socket.remotePort);
+
+    socket.on('end', () => {
+        // FIN received. The connection will be closed automatically.
+        console.log('EOF.');
+    });
+    socket.on('data', (data: Buffer) => {
+        console.log('data:', data);
+        socket.write(data); // echo back the data.
+
+        // actively closed the connection if the data contains 'q'
+        if (data.includes('q')) {
+            console.log('closing.');
+            socket.end();   // this will send FIN and close the connection.
+        }
+    });
+}
+
+let server = net.createServer();
+server.on('error', (err: Error) => { throw err; });
+server.on('connection', newConn);
+server.listen({host: '127.0.0.1', port: 1234});
+```
+
+Start the echo server by running ```node --enable-source-maps echo_server.js```. And test it with the ```nc``` or ```socat``` command.
+
+
+# 3.4 Discussion: Half-Open Connections
+Each direction of a TCP connection is ended independently, and it is possible to make use of the state where one direction is closed and the other is still open; this unidirectional use of TCP is called TCP half-open. For example, if peer A half-closes the connection to peer B:
+
+- A cannot send any more data, but can still receive from B.
+- B gets EOF, but can still send to A.
+
+Not many applications make use of this. Most applications treat EOF the same way as being fully closed by the peer, and will also close the socket immediately.
+
+The socket primitive for this is called ```shudown```. Sockets in Node.js do not support half-open by default, and are automatically closed when either side sends or receives EOF. To support TCP half-open, an additional flag is required.
+
+```
+let server = net.createServer({allowHalfOpen: true});
+```
+
+When the ```allowHalfOpen``` flag is enabled, you are responsible for closing the connection, because ```socket.end()``` will no longer close the connection, but will only send EOF. Use ```socket.destroy()``` to close the socket manually.
