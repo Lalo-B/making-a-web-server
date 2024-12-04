@@ -171,4 +171,4 @@ let server = net.createServer({allowHalfOpen: true});
 When the ```allowHalfOpen``` flag is enabled, you are responsible for closing the connection, because ```socket.end()``` will no longer close the connection, but will only send EOF. Use ```socket.destroy()``` to close the socket manually.
 
 so a server is just a script that is listening for requests?
-
+look into load balancer and types of db blob vs relational and system design stuff
