@@ -176,3 +176,5 @@ look into load balancer and types of db blob vs relational and system design stu
 what determines the speed of the internet? i know theres a modem and router and a coaxial cable that are all talking to one another
 but what is the limiting factor and when is it the limiting factor? what determines how many devices can be connected to the router
 at once and what determines how much internet data can be sent out from the router? is it a wifi card?
+
+this is a test?
