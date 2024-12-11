@@ -180,3 +180,6 @@ at once and what determines how much internet data can be sent out from the rout
 this is a test?
 
 this weekend our goal is to finish taking these notes and write it out. from what i understand a web server is super simple to actually code this is more practicing the understanding
+
+reading a hacking book using c and going to attempt to flash a burner phone
+
