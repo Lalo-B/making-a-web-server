@@ -183,3 +183,4 @@ this weekend our goal is to finish taking these notes and write it out. from wha
 
 reading a hacking book using c and going to attempt to flash a burner phone
 
+continuing to read this book today
