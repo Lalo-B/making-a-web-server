@@ -187,3 +187,5 @@ continuing to read this book today
 
 today i worked and had errands so cant contribute sadly
 tomorrow ill try in the morining
+
+i couldnt this morining but i will be able to this weekend since ill have time then i still need to on saturday
