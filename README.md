@@ -191,3 +191,5 @@ tomorrow ill try in the morining
 i couldnt this morining but i will be able to this weekend since ill have time then i still need to on saturday
 
 going to read the hacking book again today will update notes on my ipad
+
+forgot to code on monday for some reason ...
