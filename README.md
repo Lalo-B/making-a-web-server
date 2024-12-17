@@ -193,3 +193,5 @@ i couldnt this morining but i will be able to this weekend since ill have time t
 going to read the hacking book again today will update notes on my ipad
 
 forgot to code on monday for some reason ...
+
+i dont want to take my laptop but i need to push to github on saturday what do i do
