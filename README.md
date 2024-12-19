@@ -198,3 +198,5 @@ i dont want to take my laptop but i need to push to github on saturday what do i
 
 im not going to lie i havent worked on code in a while
 i need to get back to is but i dont for some reason. this coming year i will definetly do it
+second day i need to push but i want to make a mobile app using react native and maybe even look more into making a
+clash of clans app and get player info somehow. maybe on device data?
