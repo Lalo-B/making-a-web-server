@@ -195,3 +195,6 @@ going to read the hacking book again today will update notes on my ipad
 forgot to code on monday for some reason ...
 
 i dont want to take my laptop but i need to push to github on saturday what do i do
+
+im not going to lie i havent worked on code in a while
+i need to get back to is but i dont for some reason. this coming year i will definetly do it
